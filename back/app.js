@@ -9,6 +9,8 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const db = require("./models");
 
+const productTypeRouter = require("./routers/productTypeRouter");
+
 db.sequelize
   .sync()
   .then(() => {
@@ -61,6 +63,8 @@ app.use(
 app.get("/", (req, res, next) => {
   return res.status(200).send("🍀 Express REST FULL API Server Called!");
 });
+
+app.use("/api/productType", productTypeRouter);
 
 app.listen(PORT, () => {
   console.log(`🍀 http://localhost:${PORT} Web Express Server Start`);
