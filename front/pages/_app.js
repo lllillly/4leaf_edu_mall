@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Wrapper from "../store/configureStore";
+import GlobalStyles from "../components/globalStyles";
 
 const App = ({ Component }) => {
   return (
@@ -27,6 +28,8 @@ const App = ({ Component }) => {
 
         {/* og : 누군가에게 url을 보냈을 때 뜨는것*/}
       </Head>
+
+      <GlobalStyles />
 
       <Component />
     </>
