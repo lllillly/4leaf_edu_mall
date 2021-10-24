@@ -9,6 +9,14 @@ import {
   PRODUCT_TYPE_CREATE_REQUEST,
   PRODUCT_TYPE_CREATE_SUCCESS,
   PRODUCT_TYPE_CREATE_FAILURE,
+  //
+  PRODUCT_TYPE_DELETE_REQUEST,
+  PRODUCT_TYPE_DELETE_SUCCESS,
+  PRODUCT_TYPE_DELETE_FAILURE,
+  //
+  PRODUCT_TYPE_UPDATE_REQUEST,
+  PRODUCT_TYPE_UPDATE_SUCCESS,
+  PRODUCT_TYPE_UPDATE_FAILURE,
 } from "../reducers/productType";
 
 // SAGA AREA ********************************************************************************************************
@@ -54,6 +62,48 @@ function* productTypeCreate(action) {
   }
 }
 
+// **********
+function productTypeDeleteAPI(data) {
+  return axios.patch("/api/productType/delete", data);
+}
+
+function* productTypeDelete(action) {
+  try {
+    const result = yield call(productTypeDeleteAPI, action.data);
+    yield put({
+      type: PRODUCT_TYPE_DELETE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: PRODUCT_TYPE_DELETE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+// **********
+function productTypeUpdateAPI(data) {
+  return axios.patch("/api/productType/update", data);
+}
+
+function* productTypeUpdate(action) {
+  try {
+    const result = yield call(productTypeUpdateAPI, action.data);
+    yield put({
+      type: PRODUCT_TYPE_UPDATE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: PRODUCT_TYPE_UPDATE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 // ******************************************************************************************************************
 // ******************************************************************************************************************
 
@@ -67,6 +117,14 @@ function* watchProductTypeCreate() {
   yield takeLatest(PRODUCT_TYPE_CREATE_REQUEST, productTypeCreate);
 }
 
+function* watchProductTypeDelete() {
+  yield takeLatest(PRODUCT_TYPE_DELETE_REQUEST, productTypeDelete);
+}
+
+function* watchProductTypeUpdate() {
+  yield takeLatest(PRODUCT_TYPE_UPDATE_REQUEST, productTypeUpdate);
+}
+
 //////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////
@@ -74,6 +132,8 @@ export default function* productTypeSaga() {
   yield all([
     fork(watchProductType),
     fork(watchProductTypeCreate),
+    fork(watchProductTypeDelete),
+    fork(watchProductTypeUpdate),
     //
   ]);
 }
