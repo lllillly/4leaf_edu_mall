@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { PRODUCT_TYPE_REQUEST } from "../../reducers/productType";
 import { PRODUCT_LIST_REQUEST } from "../../reducers/product";
 import styled from "styled-components";
-import { Button, Table } from "antd";
+import { Button, Switch, Table } from "antd";
 
 const SearchBtnWrapper = styled.div`
   width: 100%;
@@ -86,7 +86,7 @@ const Product = () => {
     },
     {
       title: "상단노출",
-      dataIndex: "isTop",
+      render: (data) => <Switch defaultChecked={data.isTop} />,
     },
   ];
 
